@@ -56,9 +56,8 @@ rl.on('line', async (line) => {
       handleOsOperations(args);
       break;
     case '.exit':
-      console.log(`Thank you for using File Manager, ${username}, goodbye!`);
       rl.close();
-      return;
+      break;
     default:
       console.log('Invalid input');
   }
@@ -66,7 +65,8 @@ rl.on('line', async (line) => {
   printCurrentDirectory();
   rl.prompt();
 }).on('close', () => {
-  //  console.log(`Thank you for using File Manager, ${username}, goodbye!`);
+  process.stdout.write('\n');
+  console.log(`Thank you for using File Manager, ${username}, goodbye!`);
   process.exit(0);
 });
 
