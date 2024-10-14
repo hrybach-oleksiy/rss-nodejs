@@ -3,36 +3,26 @@ import { pipeline } from 'stream/promises';
 import zlib from 'zlib';
 
 export async function handleCompression(command, args) {
-  const [source, destination] = args;
-
-  if (command === 'compress') {
-    await compressFile(source, destination);
-  } else if (command === 'decompress') {
-    await decompressFile(source, destination);
+  try {
+    if (command === 'compress') {
+      await compressFile(args[0], args[1]);
+    } else if (command === 'decompress') {
+      await decompressFile(args[0], args[1]);
+    } else {
+      console.log('Invalid compression operation');
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
   }
 }
 
 async function compressFile(filePath, destination) {
-  try {
-    const fileStats = fs.stat(filePath);
-    if (fileStats.isDirectory()) {
-      throw new Error('The source path must be a file, not a directory.');
-    }
+  const source = fs.createReadStream(filePath);
+  const dest = fs.createWriteStream(destination);
+  const brotli = zlib.createBrotliCompress();
 
-    if (destination.endsWith('/')) {
-      throw new Error('The destination must include a file name.');
-    }
-
-    const source = createReadStream(filePath);
-    const dest = createWriteStream(destination);
-    const brotli = createBrotliCompress();
-
-    // await pipeline(source, brotli, dest);
-    await source.pipe(brotli).pipe(dest);
-    console.log('File compressed successfully to', destination);
-  } catch (err) {
-    console.error('Operation failed:', err.message);
-  }
+  await pipeline(source, brotli, dest);
+  console.log('File compressed');
 }
 
 async function decompressFile(filePath, destination) {

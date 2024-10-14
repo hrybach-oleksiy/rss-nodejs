@@ -1,7 +1,6 @@
 import { createInterface } from 'readline';
-import path from 'path';
 import { homedir } from 'os';
-import { chdir, cwd } from 'process';
+import { chdir } from 'process';
 import { listDirectory } from './listDirectory.js';
 import { handleFileOperations } from './fileOperations.js';
 import { handleHashOperations } from './hashOperations.js';
