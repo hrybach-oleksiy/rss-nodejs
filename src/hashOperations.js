@@ -1,7 +1,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 
-export async function handleHashOperations(filePath) {
+export async function handleHashOperations(filePath, rl) {
   try {
     const hash = crypto.createHash('sha256');
 
@@ -15,6 +15,7 @@ export async function handleHashOperations(filePath) {
 
     stream.on('end', () => {
       console.log(`Hash: ${hash.digest('hex')}`);
+      rl.prompt();
     });
 
     stream.on('error', (err) => {

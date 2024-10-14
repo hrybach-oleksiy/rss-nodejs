@@ -45,7 +45,7 @@ rl.on('line', async (line) => {
       await handleFileOperations(command, args);
       break;
     case 'hash':
-      await handleHashOperations(args[0]);
+      await handleHashOperations(args[0], rl);
       break;
     case 'compress':
     case 'decompress':
