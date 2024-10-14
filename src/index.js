@@ -6,6 +6,8 @@ import { chdir, cwd } from 'process';
 import { listDirectory } from './listDirectory.js';
 import { handleFileOperations } from './fileOperations.js';
 import { handleHashOperations } from './hashOperations.js';
+import { handleCompression } from './compression.js';
+import { handleOsOperations } from './osOperations.js';
 
 const username = process.argv.find((arg) => arg.startsWith('--username=')).split('=')[1] || 'User';
 console.log(`Welcome to the File Manager, ${username}!`);
@@ -45,6 +47,13 @@ rl.on('line', async (line) => {
       break;
     case 'hash':
       await handleHashOperations(args[0]);
+      break;
+    case 'compress':
+    case 'decompress':
+      await handleCompression(command, args);
+      break;
+    case 'os':
+      handleOsOperations(args);
       break;
     case '.exit':
       console.log(`Thank you for using File Manager, ${username}, goodbye!`);
