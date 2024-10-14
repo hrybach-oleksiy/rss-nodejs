@@ -1,5 +1,4 @@
 import { createInterface } from 'readline';
-// import os from 'os';
 import path from 'path';
 import { homedir } from 'os';
 import { chdir, cwd } from 'process';
@@ -8,6 +7,7 @@ import { handleFileOperations } from './fileOperations.js';
 import { handleHashOperations } from './hashOperations.js';
 import { handleCompression } from './compression.js';
 import { handleOsOperations } from './osOperations.js';
+import { goUp, changeDirectory, printCurrentDirectory } from './directoryUtils.js';
 
 const username = process.argv.find((arg) => arg.startsWith('--username=')).split('=')[1] || 'User';
 console.log(`Welcome to the File Manager, ${username}!`);
@@ -69,24 +69,3 @@ rl.on('line', async (line) => {
   console.log(`Thank you for using File Manager, ${username}, goodbye!`);
   process.exit(0);
 });
-
-function goUp() {
-  if (path.parse(currentDir).root !== currentDir) {
-    currentDir = path.join(currentDir, '..');
-    chdir(currentDir);
-  }
-}
-
-function changeDirectory(dir) {
-  const newPath = path.resolve(currentDir, dir);
-  chdir(newPath);
-  currentDir = cwd();
-}
-
-// rl.on('close', () => {
-//   console.log(`Thank you for using File Manager, ${username}, goodbye!`);
-// });
-
-function printCurrentDirectory() {
-  console.log(`You are currently in ${currentDir}`);
-}
