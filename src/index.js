@@ -4,6 +4,7 @@ import path from 'path';
 import { homedir } from 'os';
 import { chdir, cwd } from 'process';
 import { listDirectory } from './listDirectory.js';
+import { handleFileOperations } from './fileOperations.js';
 
 const username = process.argv.find((arg) => arg.startsWith('--username=')).split('=')[1] || 'User';
 console.log(`Welcome to the File Manager, ${username}!`);
@@ -32,6 +33,14 @@ rl.on('line', async (line) => {
       break;
     case 'ls':
       await listDirectory();
+      break;
+    case 'cat':
+    case 'add':
+    case 'rn':
+    case 'cp':
+    case 'mv':
+    case 'rm':
+      await handleFileOperations(command, args);
       break;
     case '.exit':
       console.log(`Thank you for using File Manager, ${username}, goodbye!`);
