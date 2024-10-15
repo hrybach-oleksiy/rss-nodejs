@@ -95,6 +95,6 @@ dist
 # TernJS port file
 .tern-port
 
-temp
+temp/
 
 swagger-temp.js
